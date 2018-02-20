@@ -22,6 +22,7 @@ class App extends Component {
         <Person
           name={this.state.persons[1].name}
           age={this.state.persons[1].age}
+          onChange={this._nameChangeHandler}
         >
           <h3>My hobbies: Racing</h3>
         </Person>
@@ -50,6 +51,16 @@ class App extends Component {
       ],
     });
   };
+
+  _nameChangeHandler = e => {
+    this.setState({
+      persons: [
+        { name: 'Max', age: 28 },
+        { name: e.target.value, age: 29 },
+        { name: 'Luker', age: 31 },
+      ],
+    });
+  }
 }
 
 export default App;
