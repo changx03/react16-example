@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import Person from './Person/Person';
+import SwitchButton from './SwitchButton';
 
 class App extends Component {
   state = {
@@ -36,6 +37,7 @@ class App extends Component {
     return (
       <div className="App">
         <h1>My react app</h1>
+        <SwitchButton />
         <button className="button-custom" onClick={this._onToggleBtnClick}>Toggle switch</button>
         <button className="button-custom" onClick={this._switchNameHandler.bind(this, 'Max!')}>Switch name</button>
         {person}
