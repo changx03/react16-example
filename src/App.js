@@ -34,6 +34,8 @@ class App extends Component {
       />
     </div>;
 
+    // .bind(this, ...args) is used to pass arguments to event handler
+    // 'this' is always defined in the arrow function
     return (
       <div className="App">
         <h1>My react app</h1>
