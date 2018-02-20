@@ -9,29 +9,36 @@ class App extends Component {
       { name: 'Manu', age: 29 },
       { name: 'Luke', age: 30 },
     ],
+    showPersons: false,
   };
 
   render() {
+    const person =  this.state.showPersons &&
+    <div>
+      <Person
+        name={this.state.persons[0].name}
+        age={this.state.persons[0].age}
+      />
+      <Person
+        name={this.state.persons[1].name}
+        age={this.state.persons[1].age}
+        onChange={this._nameChangeHandler}
+      >
+        <h3>My hobbies: Racing</h3>
+      </Person>
+      <Person
+        name={this.state.persons[2].name}
+        onClick={this._switchNameHandler.bind(this, 'Maximum')}
+        age={this.state.persons[2].age}
+      />
+    </div>;
+
     return (
       <div className="App">
         <h1>My react app</h1>
-        <Person
-          name={this.state.persons[0].name}
-          age={this.state.persons[0].age}
-        />
-        <Person
-          name={this.state.persons[1].name}
-          age={this.state.persons[1].age}
-          onChange={this._nameChangeHandler}
-        >
-          <h3>My hobbies: Racing</h3>
-        </Person>
-        <Person
-          name={this.state.persons[2].name}
-          onClick={this._switchNameHandler.bind(this, 'Maximum')}
-          age={this.state.persons[2].age}
-        />
-        <button onClick={this._switchNameHandler.bind(this, 'Max!')}>Switch name</button>
+        <button className="button-custom" onClick={this._onToggleBtnClick}>Toggle switch</button>
+        <button className="button-custom" onClick={this._switchNameHandler.bind(this, 'Max!')}>Switch name</button>
+        {person}
       </div>
       // React.createElement(
       //   'div',
@@ -39,6 +46,12 @@ class App extends Component {
       //   React.createElement('h1', null, "I'm a react app!")
       // )
     );
+  }
+
+  _onToggleBtnClick = () => {
+    this.setState({
+      showPersons: !this.state.showPersons,
+    })
   }
 
   _switchNameHandler = (nextName) => {
