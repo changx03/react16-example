@@ -6,33 +6,31 @@ import SwitchButton from './SwitchButton';
 class App extends Component {
   state = {
     persons: [
-      { name: 'Max', age: 28 },
-      { name: 'Manu', age: 29 },
-      { name: 'Luke', age: 30 },
+      { id: 1, name: 'Max', age: 28 },
+      { id: 2, name: 'Manu', age: 29 },
+      { id: 3, name: 'Luke', age: 30 },
     ],
     showPersons: false,
   };
 
   render() {
-    const person =  this.state.showPersons &&
-    <div>
-      <Person
-        name={this.state.persons[0].name}
-        age={this.state.persons[0].age}
-      />
-      <Person
-        name={this.state.persons[1].name}
-        age={this.state.persons[1].age}
-        onChange={this._nameChangeHandler}
-      >
-        <h3>My hobbies: Racing</h3>
-      </Person>
-      <Person
-        name={this.state.persons[2].name}
-        onClick={this._switchNameHandler.bind(this, 'Maximum')}
-        age={this.state.persons[2].age}
-      />
-    </div>;
+    const person = this.state.showPersons && (
+      <div>
+        {this.state.persons.map((person, index) => (
+          <Person 
+            key={person.id} 
+            name={person.name} 
+            age={person.age}
+            onClick={this._deletePersonHandler.bind(this, index)}
+            onChange={event => this._nameChangeHandler(event, person.id)}
+          >
+            <p>
+              {`${person.name} says "Hello" to you!`}
+            </p>
+          </Person>
+        ))}
+      </div>
+    );
 
     // .bind(this, ...args) is used to pass arguments to event handler
     // 'this' is always defined in the arrow function
@@ -40,8 +38,9 @@ class App extends Component {
       <div className="App">
         <h1>My react app</h1>
         <SwitchButton />
-        <button className="button-custom" onClick={this._onToggleBtnClick}>Toggle switch</button>
-        <button className="button-custom" onClick={this._switchNameHandler.bind(this, 'Max!')}>Switch name</button>
+        <button className="button-custom" onClick={this._onToggleBtnClick}>
+          Toggle switch
+        </button>
         {person}
       </div>
       // React.createElement(
@@ -53,31 +52,29 @@ class App extends Component {
   }
 
   _onToggleBtnClick = () => {
-    this.setState({
-      showPersons: !this.state.showPersons,
-    })
-  }
-
-  _switchNameHandler = (nextName) => {
-    console.log('Click!');
-    this.setState({
-      persons: [
-        { name: nextName, age: 28 },
-        { name: 'Manu', age: 29 },
-        { name: 'Luker', age: 31 },
-      ],
-    });
+    this.setState(prevState => ({
+      showPersons: !prevState.showPersons,
+    }));
   };
 
-  _nameChangeHandler = e => {
+  _deletePersonHandler = index => {
+    // Don't use pointer, create a deep copy instead
+    //const persons = this.state.persons.slice();
+    const persons = [...this.state.persons];
+    persons.splice(index, 1);
     this.setState({
-      persons: [
-        { name: 'Max', age: 28 },
-        { name: e.target.value, age: 29 },
-        { name: 'Luker', age: 31 },
-      ],
+      persons: persons,
     });
   }
+
+  _nameChangeHandler = (event, id) => {
+    const idx = this.state.persons.findIndex(p => p.id === id);
+    const persons = [...this.state.persons];
+    persons[idx].name = event.target.value;
+    this.setState({
+      persons: persons,
+    });
+  };
 }
 
 export default App;
