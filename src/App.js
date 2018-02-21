@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Radium, { StyleRoot } from 'radium';
 import './App.css';
 import Person from './Person/Person';
 
@@ -15,7 +14,7 @@ class App extends Component {
 
   render() {
     const person = this.state.showPersons && (
-      <StyleRoot>
+      <div>
         {this.state.persons.map((person, index) => (
           <Person
             key={person.id}
@@ -27,7 +26,7 @@ class App extends Component {
             <p>{`${person.name} says "Hello" to you!`}</p>
           </Person>
         ))}
-      </StyleRoot>
+      </div>
     );
 
     const classes = []; // ['red', 'bold'].join(' ');
@@ -99,4 +98,4 @@ const styles = {
   },
 };
 
-export default Radium(App);
+export default App;
