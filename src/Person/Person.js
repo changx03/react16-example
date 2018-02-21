@@ -1,11 +1,11 @@
 import React from 'react';
-import './Person.css';
+import classes from './Person.css';
 
 // functions are stateless
 const person = props => {
   const { name, age, children, onChange } = props;
   return (
-    <div className="card">
+    <div className={classes.card}>
       <h2 onClick={props.onClick}>{name}</h2>
       <p>{`Age: ${age}`}</p>
       <input type="text" onChange={onChange} value={name} />

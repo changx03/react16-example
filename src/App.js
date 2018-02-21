@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './App.css';
+import classes from './App.css';
 import Person from './Person/Person';
 
 class App extends Component {
@@ -13,37 +13,42 @@ class App extends Component {
   };
 
   render() {
-    const person = this.state.showPersons && (
-      <div>
-        {this.state.persons.map((person, index) => (
-          <Person
-            key={person.id}
-            name={person.name}
-            age={person.age}
-            onClick={this._deletePersonHandler.bind(this, index)}
-            onChange={event => this._nameChangeHandler(event, person.id)}
-          >
-            <p>{`${person.name} says "Hello" to you!`}</p>
-          </Person>
-        ))}
-      </div>
-    );
+    let btnClass = '';
+    let person;
 
-    const classes = []; // ['red', 'bold'].join(' ');
+    if (this.state.showPersons) {
+      person = (
+        <div>
+          {this.state.persons.map((person, index) => (
+            <Person
+              key={person.id}
+              name={person.name}
+              age={person.age}
+              onClick={this._deletePersonHandler.bind(this, index)}
+              onChange={event => this._nameChangeHandler(event, person.id)}
+            >
+              <p>{`${person.name} says "Hello" to you!`}</p>
+            </Person>
+          ))}
+        </div>
+      );
+
+      btnClass = classes.Red;
+    }
+
+    const assignedClasses = [];
     if (this.state.persons.length <= 2) {
-      classes.push('color');
+      assignedClasses.push(classes.color);
     }
     if (this.state.persons.length <= 1) {
-      classes.push('shadow');
+      assignedClasses.push(classes.shadow);
     }
 
-    // .bind(this, ...args) is used to pass arguments to event handler
-    // 'this' is always defined in the arrow function
     return (
-      <div className="App">
+      <div className={classes.App}>
         <h1>My react app</h1>
-        <p className={classes.join(' ')}>This is an indicator </p>
-        <button style={styles.button} onClick={this._onToggleBtnClick}>
+        <p className={assignedClasses.join(' ')}>This is an indicator </p>
+        <button className={btnClass} onClick={this._onToggleBtnClick}>
           Toggle switch
         </button>
         {person}
@@ -81,21 +86,5 @@ class App extends Component {
     });
   };
 }
-
-const styles = {
-  button: {
-    width: 200,
-    height: 40,
-    background: 'white',
-    border: '1px solid #b3e5fc',
-    borderRadius: 4,
-    margin: 8,
-    cursor: 'pointer',
-    ':hover': {
-      background: 'lightgreen',
-      color: 'black'
-    }
-  },
-};
 
 export default App;
