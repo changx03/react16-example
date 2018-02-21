@@ -2,12 +2,10 @@
   text-align: center;
 }
 
-.button-custom {
-  width: 200px;
-  height: 40px;
-  background: white;
-  border: 1px solid #b3e5fc;
-  border-radius: 4px;
-  margin: 8px;
-  cursor: pointer;
+.color {
+  color: rgb(37, 134, 102);
+}
+
+.shadow {
+  text-shadow: 0 0 5px darkgreen;
 }
