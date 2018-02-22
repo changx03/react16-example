@@ -1,24 +1,39 @@
-import React from 'react';
-import Radium from 'radium';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import './Person.css';
 
 // functions are stateless
-const person = props => {
-  const { name, age, children, onChange } = props;
-  return (
-    <div className="card" style={style}>
-      <h2 onClick={props.onClick}>{name}</h2>
-      <p>{`Age: ${age}`}</p>
-      <input type="text" onChange={onChange} value={name} />
-      {children}
-    </div>
-  );
-};
+export default class Person extends Component {
+  inputRef;
 
-const style = {
-  '@media (min-width: 500px)': {
-    width: '450px',
+  componentDidMount() {
+    if (this.props.position === 0) {
+      this.inputRef.focus();
+    }
   }
-};
 
-export default Radium(person);
+  render() {
+    const { name, age, children, onChange, onClick } = this.props;
+    return (
+      <div className="card">
+        <h2 onClick={onClick}>{name}</h2>
+        <p>{`Age: ${age}`}</p>
+        <input
+          type="text"
+          onChange={onChange}
+          value={name}
+          ref={ref => (this.inputRef = ref)}
+        />
+        {children}
+      </div>
+    );
+  }
+}
+
+Person.propTypes = {
+  name: PropTypes.string,
+  age: PropTypes.number,
+  onChange: PropTypes.func,
+  onClick: PropTypes.func,
+  position: PropTypes.number,
+};

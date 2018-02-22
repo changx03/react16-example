@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import Radium, { StyleRoot } from 'radium';
 import './App.css';
 import Person from './Person/Person';
 
 class App extends Component {
+  personRefs = [];
+
   state = {
     persons: [
       { id: 1, name: 'Max', age: 28 },
@@ -11,24 +12,23 @@ class App extends Component {
       { id: 3, name: 'Luke', age: 30 },
     ],
     showPersons: false,
+    counter: 0,
   };
 
   render() {
-    const person = this.state.showPersons && (
-      <StyleRoot>
-        {this.state.persons.map((person, index) => (
+    const person = this.state.showPersons &&
+        this.state.persons.map((person, index) => (
           <Person
             key={person.id}
             name={person.name}
             age={person.age}
             onClick={this._deletePersonHandler.bind(this, index)}
             onChange={event => this._nameChangeHandler(event, person.id)}
+            position={index}
           >
             <p>{`${person.name} says "Hello" to you!`}</p>
           </Person>
-        ))}
-      </StyleRoot>
-    );
+        ));
 
     const classes = []; // ['red', 'bold'].join(' ');
     if (this.state.persons.length <= 2) {
@@ -46,6 +46,9 @@ class App extends Component {
         <p className={classes.join(' ')}>This is an indicator </p>
         <button style={styles.button} onClick={this._onToggleBtnClick}>
           Toggle switch
+        </button>
+        <button style={styles.button} onClick={this._onCounterClick}>
+          Counter {this.state.counter}
         </button>
         {person}
       </div>
@@ -81,6 +84,12 @@ class App extends Component {
       persons: persons,
     });
   };
+
+  _onCounterClick = () => {
+    this.setState((prevState, props) => ({
+      counter: prevState.counter + 1,
+    }));
+  }
 }
 
 const styles = {
@@ -99,4 +108,4 @@ const styles = {
   },
 };
 
-export default Radium(App);
+export default App;
